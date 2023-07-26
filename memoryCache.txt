@@ -1,0 +1,15 @@
+
+        private readonly IMemoryCache _memoryCache;
+var CurrentDateTime = DateTime.Now;
+
+            if (!_memoryCache.TryGetValue("Key", out DateTime cacheValue))
+            {
+                cacheValue = CurrentDateTime;
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(1000));
+
+                _memoryCache.Set("Key", cacheValue, cacheEntryOptions);
+            }
+
+            ViewBag.caching = cacheValue;
